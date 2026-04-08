@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check My Car – Inspection de voiture d'occasion avant achat</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #1A56DB;
+    --blue-dark: #1245B0;
+    --blue-light: #EBF2FF;
+    --teal: #0D9488;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-400: #9CA3AF;
+    --gray-600: #4B5563;
+    --gray-700: #374151;
+    --gray-800: #1F2937;
+    --gray-900: #111827;
+    --orange: #F97316;
+    --orange-light: #FFF7ED;
+    --green: #16A34A;
+    --green-light: #F0FDF4;
+    --red: #DC2626;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-md: 0 4px 24px rgba(0,0,0,.10);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; color: var(--gray-800); background: #fff; line-height: 1.6; }
+  a { text-decoration: none; color: inherit; }
+  img { max-width: 100%; display: block; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky; top: 0; z-index: 200;
+    background: rgba(255,255,255,.96); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between; height: 70px;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; }
+  .nav-links { display: flex; align-items: center; gap: 2rem; font-size: .92rem; }
+  .nav-links a { color: var(--gray-600); transition: color .2s; font-weight: 500; }
+  .nav-links a:hover { color: var(--blue); }
+  .nav-cta {
+    background: var(--blue); color: #fff !important; padding: 10px 22px; border-radius: var(--radius-sm);
+    font-weight: 700 !important; font-size: .88rem; transition: background .2s;
+  }
+  .nav-cta:hover { background: var(--blue-dark) !important; }
+  .mobile-menu-btn { display: none; background: none; border: none; cursor: pointer; }
+
+  /* ─── MOBILE NAV ─── */
+  #mobile-nav {
+    display: none; background: #fff; border-bottom: 1px solid var(--gray-200);
+    padding: .5rem 4% 1rem; position: sticky; top: 70px; z-index: 199;
+  }
+  #mobile-nav a { display: block; padding: 10px 0; color: var(--gray-600); border-bottom: 1px solid var(--gray-100); font-size: .95rem; }
+  #mobile-nav .m-cta { display: block; margin-top: 12px; background: var(--blue); color: #fff; padding: 12px; border-radius: 8px; text-align: center; font-weight: 700; }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 90px 5%; }
+  .section-label {
+    display: inline-block; background: var(--blue-light); color: var(--blue);
+    font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 99px; margin-bottom: 1rem;
+  }
+  h1 { font-size: clamp(2rem, 4vw, 3.1rem); font-weight: 800; line-height: 1.15; color: var(--gray-900); }
+  h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); font-weight: 700; line-height: 1.25; color: var(--gray-900); }
+  h3 { font-size: 1.1rem; font-weight: 600; color: var(--gray-900); }
+  p { color: var(--gray-600); }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 92vh; display: flex; align-items: center;
+    background: linear-gradient(140deg, #EEF3FF 0%, #E6F4F1 100%);
+    padding: 80px 5%; gap: 4rem;
+  }
+  .hero-text { flex: 1; max-width: 580px; }
+  .hero-text h1 { margin-bottom: 1.2rem; }
+  .hero-text h1 span { color: var(--blue); }
+  .hero-text > p { font-size: 1.05rem; margin-bottom: 2rem; max-width: 500px; }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+  .btn-primary {
+    background: var(--blue); color: #fff; padding: 14px 26px; border-radius: var(--radius-sm);
+    font-weight: 700; font-size: .95rem; transition: background .2s, transform .1s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); color: #fff; }
+  .btn-secondary {
+    background: #fff; color: var(--blue); padding: 14px 26px; border-radius: var(--radius-sm);
+    font-weight: 700; font-size: .95rem; border: 2px solid var(--blue);
+    display: inline-flex; align-items: center; gap: 8px; transition: .2s;
+  }
+  .btn-secondary:hover { background: var(--blue-light); }
+  .hero-trust { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .trust-item { display: flex; align-items: center; gap: 8px; font-size: .88rem; color: var(--gray-600); }
+  .trust-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+
+  .hero-visual { flex: 1; display: flex; flex-direction: column; gap: 1rem; align-items: center; }
+  .hero-img-wrap { position: relative; width: 100%; max-width: 440px; }
+  .hero-main-img { border-radius: 20px; width: 100%; height: 300px; object-fit: cover; box-shadow: var(--shadow-md); }
+  .hero-card {
+    background: #fff; border-radius: 16px; padding: 1.25rem 1.5rem; box-shadow: var(--shadow-md);
+    width: 100%; max-width: 440px; position: relative;
+  }
+  .hero-card-badge {
+    position: absolute; top: -13px; left: 20px;
+    background: var(--green); color: #fff; font-size: .73rem; font-weight: 700;
+    padding: 4px 14px; border-radius: 99px;
+  }
+  .check-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: .25rem; }
+  .check-list li { display: flex; align-items: center; gap: 10px; font-size: .88rem; color: var(--gray-800); }
+  .check-icon { width: 20px; height: 20px; background: var(--green-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .check-icon svg { width: 11px; height: 11px; stroke: var(--green); fill: none; stroke-width: 2.5; }
+  .hero-score { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--gray-200); }
+  .score-num { font-size: 1.8rem; font-weight: 800; color: var(--blue); }
+
+  /* ─── STATS ─── */
+  #stats { background: var(--gray-900); padding: 60px 5%; }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
+  .stat-item { text-align: center; }
+  .stat-num { font-size: 2.4rem; font-weight: 800; color: var(--blue); display: block; }
+  .stat-desc { font-size: .88rem; color: #9CA3AF; margin-top: .3rem; }
+
+  /* ─── STEPS ─── */
+  .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-top: 3rem; }
+  .step-card {
+    background: var(--gray-50); border-radius: var(--radius); padding: 1.75rem;
+    border: 1px solid var(--gray-200); position: relative;
+  }
+  .step-num {
+    width: 36px; height: 36px; background: var(--blue); color: #fff;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: .88rem; margin-bottom: 1rem;
+  }
+  .step-img { width: 100%; height: 140px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem; }
+  .step-card h3 { margin-bottom: .4rem; font-size: 1rem; }
+
+  /* ─── TEAM PHOTO STRIP ─── */
+  #equipe { background: var(--gray-900); padding: 70px 5%; }
+  #equipe h2 { color: #fff; margin-bottom: .5rem; }
+  #equipe > p { color: #9CA3AF; margin-bottom: 3rem; max-width: 520px; }
+  .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+  .team-card { border-radius: var(--radius); overflow: hidden; background: #1F2937; border: 1px solid #374151; }
+  .team-card img { width: 100%; height: 220px; object-fit: cover; }
+  .team-info { padding: 1rem 1.25rem; }
+  .team-name { color: #fff; font-weight: 600; font-size: .95rem; }
+  .team-role { color: #9CA3AF; font-size: .82rem; margin-top: .2rem; }
+
+  /* ─── CONTRÔLE ─── */
+  #controle { background: var(--gray-50); }
+  .points-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+  .point-card { border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 1.5rem; transition: box-shadow .2s; background: #fff; }
+  .point-card:hover { box-shadow: var(--shadow-md); }
+  .point-icon { width: 48px; height: 48px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+  .point-icon svg { width: 24px; height: 24px; fill: none; stroke-width: 1.8; }
+  .point-items { list-style: none; margin-top: .75rem; display: flex; flex-direction: column; gap: 5px; }
+  .point-items li { font-size: .86rem; color: var(--gray-600); padding-left: 1rem; position: relative; }
+  .point-items li::before { content: '–'; position: absolute; left: 0; color: var(--gray-400); }
+
+  /* ─── TARIFS ─── */
+  #tarifs { background: #fff; }
+  .tarifs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; align-items: start; margin-top: 3rem; }
+  .tarif-card { background: #fff; border-radius: var(--radius); padding: 2rem; border: 1.5px solid var(--gray-200); position: relative; }
+  .tarif-card.featured { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(26,86,219,.08); }
+  .tarif-badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--blue); color: #fff; font-size: .73rem; font-weight: 700; padding: 4px 16px; border-radius: 99px; white-space: nowrap; }
+  .tarif-name { font-size: .8rem; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .5rem; }
+  .tarif-price { font-size: 2.3rem; font-weight: 800; color: var(--gray-900); line-height: 1; }
+  .tarif-price span { font-size: .95rem; font-weight: 400; color: var(--gray-400); }
+  .tarif-desc { font-size: .88rem; color: var(--gray-600); margin: .75rem 0 1.25rem; }
+  .tarif-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.75rem; }
+  .tarif-features li { display: flex; align-items: flex-start; gap: 10px; font-size: .88rem; color: var(--gray-700); }
+  .feat-check { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .feat-check.yes { background: var(--green-light); }
+  .feat-check.yes svg { stroke: var(--green); }
+  .feat-check.no { background: var(--gray-100); }
+  .feat-check.no svg { stroke: var(--gray-400); }
+  .feat-check svg { width: 10px; height: 10px; fill: none; stroke-width: 2.5; }
+  .btn-tarif { width: 100%; padding: 13px; border-radius: var(--radius-sm); font-weight: 700; font-size: .92rem; text-align: center; cursor: pointer; transition: .2s; display: block; border: none; font-family: inherit; }
+  .btn-tarif.primary { background: var(--blue); color: #fff; }
+  .btn-tarif.primary:hover { background: var(--blue-dark); }
+  .btn-tarif.outline { background: #fff; color: var(--blue); border: 2px solid var(--blue); }
+  .btn-tarif.outline:hover { background: var(--blue-light); }
+
+  /* ─── APRES-VENTE ─── */
+  #apres-vente { background: linear-gradient(135deg, #FFF7ED 0%, #FEF3C7 100%); }
+  .apres-content { display: flex; gap: 4rem; align-items: center; flex-wrap: wrap; }
+  .apres-text { flex: 1; min-width: 280px; }
+  .apres-text h2, .apres-text p { margin-bottom: 1rem; }
+  .apres-badge { display: inline-block; background: var(--orange); color: #fff; font-size: .78rem; font-weight: 700; padding: 5px 14px; border-radius: 99px; margin-bottom: 1rem; }
+  .apres-img { width: 100%; border-radius: var(--radius); height: 220px; object-fit: cover; margin-bottom: 1.5rem; }
+  .apres-cards { flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 1rem; }
+  .apres-card { background: #fff; border-radius: var(--radius); padding: 1.25rem 1.5rem; border: 1px solid rgba(249,115,22,.2); display: flex; gap: 1rem; align-items: flex-start; }
+  .apres-icon { width: 42px; height: 42px; border-radius: var(--radius-sm); background: var(--orange-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .apres-icon svg { width: 20px; height: 20px; stroke: var(--orange); fill: none; stroke-width: 1.8; }
+
+  /* ─── B2B ─── */
+  #b2b { background: var(--gray-900); }
+  #b2b h2 { color: #fff; }
+  #b2b > p { color: #9CA3AF; margin-top: .75rem; max-width: 540px; }
+  .b2b-content { display: flex; gap: 4rem; align-items: flex-start; flex-wrap: wrap; margin-top: 3rem; }
+  .b2b-text { flex: 1; min-width: 280px; }
+  .b2b-text p { color: #D1D5DB; margin-bottom: 1rem; }
+  .b2b-benefits { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+  .b2b-benefit { display: flex; gap: 1rem; align-items: flex-start; }
+  .b2b-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); flex-shrink: 0; margin-top: 7px; }
+  .b2b-benefit-title { font-weight: 600; color: #fff; margin-bottom: .2rem; font-size: .95rem; }
+  .b2b-benefit p { font-size: .9rem; margin-bottom: 0; }
+  .b2b-form { flex: 1; min-width: 280px; }
+  .devis-form { background: #1F2937; border-radius: var(--radius); padding: 2rem; border: 1px solid #374151; }
+  .devis-form h3 { color: #fff; margin-bottom: 1.5rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+  .form-group label { font-size: .83rem; color: #9CA3AF; }
+  .form-group input, .form-group select, .form-group textarea { background: #111827; border: 1px solid #374151; border-radius: var(--radius-sm); padding: 10px 14px; color: #fff; font-size: .88rem; width: 100%; transition: border-color .2s; font-family: inherit; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--blue); }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .form-group select option { background: #1F2937; }
+  .btn-devis { width: 100%; padding: 13px; background: var(--teal); color: #fff; border: none; border-radius: var(--radius-sm); font-weight: 700; font-size: .92rem; cursor: pointer; transition: background .2s; font-family: inherit; }
+  .btn-devis:hover { background: #0A7A6E; }
+
+  /* ─── AVIS ─── */
+  #avis { background: var(--gray-50); }
+  .avis-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+  .avis-card { background: #fff; border-radius: var(--radius); padding: 1.5rem; border: 1px solid var(--gray-200); }
+  .stars { color: #F59E0B; font-size: 1rem; margin-bottom: .75rem; }
+  .avis-text { font-size: .9rem; color: var(--gray-700); margin-bottom: 1rem; font-style: italic; }
+  .avis-author { display: flex; align-items: center; gap: 10px; }
+  .avis-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: .83rem; flex-shrink: 0; }
+  .avis-name { font-weight: 600; font-size: .88rem; }
+  .avis-date { font-size: .76rem; color: var(--gray-400); }
+
+  /* ─── FAQ ─── */
+  #faq { background: #fff; }
+  .faq-list { max-width: 720px; margin: 3rem auto 0; display: flex; flex-direction: column; gap: 1rem; }
+  .faq-item { background: var(--gray-50); border-radius: var(--radius); border: 1px solid var(--gray-200); overflow: hidden; }
+  .faq-q { padding: 1.2rem 1.5rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; font-size: .95rem; }
+  .faq-icon { width: 22px; height: 22px; border: 1.5px solid var(--gray-300); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: .2s; }
+  .faq-icon svg { width: 12px; height: 12px; stroke: var(--gray-600); fill: none; stroke-width: 2.5; transition: transform .2s; }
+  .faq-a { padding: 0 1.5rem; max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s; font-size: .92rem; color: var(--gray-600); }
+  .faq-item.open .faq-a { max-height: 200px; padding: 0 1.5rem 1.25rem; }
+  .faq-item.open .faq-icon { background: var(--blue); border-color: var(--blue); }
+  .faq-item.open .faq-icon svg { stroke: #fff; transform: rotate(45deg); }
+
+  /* ─── CTA FINAL ─── */
+  #cta-final { background: linear-gradient(135deg, var(--blue) 0%, #2563EB 100%); color: #fff; text-align: center; padding: 90px 5%; }
+  #cta-final h2 { color: #fff; margin-bottom: 1rem; }
+  #cta-final p { color: rgba(255,255,255,.8); font-size: 1rem; margin-bottom: 2rem; }
+  .btn-white { background: #fff; color: var(--blue); padding: 14px 30px; border-radius: var(--radius-sm); font-weight: 700; font-size: .95rem; display: inline-flex; align-items: center; gap: 8px; transition: .2s; }
+  .btn-white:hover { background: #EFF6FF; }
+
+  /* ─── FOOTER ─── */
+  footer { background: #0F172A; color: #9CA3AF; padding: 60px 5% 30px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: 2rem; margin-bottom: 3rem; }
+  .footer-brand { color: #fff; font-size: 1.1rem; font-weight: 700; margin-bottom: .75rem; }
+  .footer-desc { font-size: .86rem; line-height: 1.75; }
+  .footer-col h4 { color: #fff; font-size: .88rem; font-weight: 600; margin-bottom: 1rem; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .footer-links a { font-size: .86rem; color: #9CA3AF; transition: color .2s; }
+  .footer-links a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid #1E293B; padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: .8rem; flex-wrap: wrap; gap: .5rem; }
+
+  /* ─── CHATBOT ─── */
+  #chat-bubble {
+    position: fixed; bottom: 28px; right: 28px; z-index: 1000;
+  }
+  #chat-toggle {
+    width: 58px; height: 58px; background: var(--blue); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 4px 20px rgba(26,86,219,.4);
+    border: none; transition: transform .2s, background .2s; position: relative;
+  }
+  #chat-toggle:hover { transform: scale(1.08); background: var(--blue-dark); }
+  #chat-toggle svg { width: 26px; height: 26px; stroke: #fff; fill: none; stroke-width: 2; }
+  .chat-notif {
+    position: absolute; top: -4px; right: -4px; width: 18px; height: 18px;
+    background: #EF4444; border-radius: 50%; border: 2px solid #fff;
+    font-size: .62rem; font-weight: 700; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #chat-window {
+    display: none; position: absolute; bottom: 70px; right: 0;
+    width: 360px; background: #fff; border-radius: 16px;
+    box-shadow: 0 8px 40px rgba(0,0,0,.18); border: 1px solid var(--gray-200);
+    overflow: hidden; flex-direction: column;
+  }
+  #chat-window.open { display: flex; }
+  .chat-header {
+    background: var(--blue); padding: 1rem 1.25rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .chat-header-info { display: flex; align-items: center; gap: 10px; }
+  .chat-avatar { width: 36px; height: 36px; background: rgba(255,255,255,.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .chat-avatar svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2; }
+  .chat-header-name { color: #fff; font-weight: 700; font-size: .9rem; }
+  .chat-header-status { color: rgba(255,255,255,.7); font-size: .74rem; }
+  .chat-close { background: none; border: none; cursor: pointer; color: rgba(255,255,255,.7); font-size: 1.3rem; line-height: 1; transition: color .2s; }
+  .chat-close:hover { color: #fff; }
+  .chat-messages { flex: 1; height: 320px; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: .75rem; }
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 4px; }
+  .msg { max-width: 82%; padding: 10px 14px; border-radius: 14px; font-size: .88rem; line-height: 1.5; }
+  .msg.bot { background: var(--gray-100); color: var(--gray-800); align-self: flex-start; border-bottom-left-radius: 4px; }
+  .msg.user { background: var(--blue); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .msg.typing { background: var(--gray-100); align-self: flex-start; }
+  .typing-dots { display: flex; gap: 4px; padding: 2px 0; }
+  .typing-dots span { width: 7px; height: 7px; background: var(--gray-400); border-radius: 50%; animation: bounce .9s infinite; }
+  .typing-dots span:nth-child(2) { animation-delay: .15s; }
+  .typing-dots span:nth-child(3) { animation-delay: .3s; }
+  @keyframes bounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
+  .chat-quick { padding: .5rem 1rem; display: flex; gap: .5rem; flex-wrap: wrap; border-top: 1px solid var(--gray-100); }
+  .quick-btn { background: var(--blue-light); color: var(--blue); border: none; border-radius: 99px; padding: 6px 12px; font-size: .78rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: .2s; white-space: nowrap; }
+  .quick-btn:hover { background: var(--blue); color: #fff; }
+  .chat-input-row { padding: .75rem 1rem; border-top: 1px solid var(--gray-200); display: flex; gap: .5rem; }
+  #chat-input { flex: 1; border: 1px solid var(--gray-200); border-radius: 99px; padding: 9px 16px; font-size: .88rem; font-family: inherit; outline: none; transition: border-color .2s; }
+  #chat-input:focus { border-color: var(--blue); }
+  #chat-send { width: 36px; height: 36px; background: var(--blue); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .2s; }
+  #chat-send:hover { background: var(--blue-dark); }
+  #chat-send svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2; }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 4%; }
+    .nav-links { display: none; }
+    .mobile-menu-btn { display: block; }
+    #hero { flex-direction: column; padding: 60px 4%; }
+    .hero-visual { width: 100%; }
+    section { padding: 60px 4%; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .apres-content, .b2b-content { gap: 2rem; }
+    #chat-window { width: 300px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a href="#" class="nav-logo">
+    <!-- LOGO SVG CHECK MY CAR -->
+    <svg width="140" height="36" viewBox="0 0 140 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Shield icon -->
+      <path d="M4 6L18 2L32 6V18C32 25.5 18 32 18 32C18 32 4 25.5 4 18V6Z" fill="#1A56DB" stroke="#1245B0" stroke-width="1"/>
+      <!-- Magnifier handle -->
+      <line x1="26" y1="26" x2="31" y2="31" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Magnifier circle -->
+      <circle cx="21" cy="19" r="5.5" stroke="#fff" stroke-width="2" fill="none"/>
+      <!-- Check inside shield (left) -->
+      <path d="M11 17l3.5 3.5L20.5 13" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Text: CHECK -->
+      <text x="37" y="15" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="12" fill="#111827">CHECK</text>
+      <!-- Text: MY CAR -->
+      <text x="37" y="29" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="11" fill="#1A56DB" letter-spacing="1.5">MY CAR</text>
+    </svg>
+  </a>
+  <div class="nav-links">
+    <a href="#comment-ca-marche">Comment ça marche</a>
+    <a href="#tarifs">Tarifs</a>
+    <a href="#apres-vente">Après-vente</a>
+    <a href="#b2b">Professionnels</a>
+    <a href="#avis">Avis</a>
+    <a href="#tarifs" class="nav-cta">Réserver</a>
+  </div>
+  <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+    <svg width="24" height="24" fill="none" stroke="#374151" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+</nav>
+
+<div id="mobile-nav">
+  <a href="#comment-ca-marche" onclick="toggleMobileMenu()">Comment ça marche</a>
+  <a href="#tarifs" onclick="toggleMobileMenu()">Tarifs</a>
+  <a href="#apres-vente" onclick="toggleMobileMenu()">Après-vente</a>
+  <a href="#b2b" onclick="toggleMobileMenu()">Professionnels</a>
+  <a href="#avis" onclick="toggleMobileMenu()">Avis clients</a>
+  <a href="#tarifs" onclick="toggleMobileMenu()" class="m-cta">Réserver une inspection</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-text">
+    <div class="section-label">✓ Expert certifié à vos côtés</div>
+    <h1>Achetez votre voiture d'occasion <span>en toute confiance</span></h1>
+    <p>Un expert se déplace pour vous, vérifie chaque détail du véhicule et vous livre un rapport complet. Zéro mauvaise surprise.</p>
+    <div class="hero-actions">
+      <a href="#tarifs" class="btn-primary">
+        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        Réserver une inspection
+      </a>
+      <a href="#comment-ca-marche" class="btn-secondary">Comment ça marche ?</a>
+    </div>
+    <div class="hero-trust">
+      <div class="trust-item"><div class="trust-dot"></div> +50 inspections</div>
+      <div class="trust-item"><div class="trust-dot"></div> Disponible 7j/7</div>
+      <div class="trust-item"><div class="trust-dot"></div> Rapport sous 48h</div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-img-wrap">
+      <img class="hero-main-img"
+        src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&q=80&fit=crop"
+        alt="Expert en train d'inspecter une voiture" loading="lazy">
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-badge">Rapport d'inspection</div>
+      <ul class="check-list" style="margin-top:.75rem;">
+        <li><div class="check-icon"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Moteur en bon état</li>
+        <li><div class="check-icon"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Aucun accident déclaré</li>
+        <li><div class="check-icon"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Kilométrage vérifié</li>
+        <li>
+          <div class="check-icon" style="background:#FEF2F2;"><svg viewBox="0 0 12 12" style="stroke:#DC2626;"><path d="M3 3l6 6M9 3l-6 6" stroke-linecap="round"/></svg></div>
+          <span style="color:#DC2626;">Freins à surveiller</span>
+        </li>
+      </ul>
+      <div class="hero-score">
+        <div><div class="score-num">7.4/10</div><div style="font-size:.78rem;color:var(--gray-400);">Score général</div></div>
+        <div style="text-align:right;"><div style="font-weight:700;color:var(--green);font-size:.95rem;">Achat conseillé</div><div style="font-size:.76rem;color:var(--gray-400);">après négociation</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STATS ═══ -->
+<section id="stats">
+  <div class="stats-grid">
+    <div class="stat-item"><span class="stat-num">41%</span><div class="stat-desc">des véhicules d'occasion présentent des dommages cachés</div></div>
+    <div class="stat-item"><span class="stat-num">64 000 km</span><div class="stat-desc">falsifiés en moyenne sur les compteurs trafiqués</div></div>
+    <div class="stat-item"><span class="stat-num">3 900 €</span><div class="stat-desc">valeur moyenne des dégâts dissimulés à l'achat</div></div>
+    <div class="stat-item"><span class="stat-num">200</span><div class="stat-desc">points de contrôle par inspection</div></div>
+  </div>
+</section>
+
+<!-- ═══ COMMENT CA MARCHE ═══ -->
+<section id="comment-ca-marche">
+  <div class="section-label">Processus simplifié</div>
+  <h2>Comment ça marche ?</h2>
+  <p style="max-width:500px;margin-top:.75rem;">De votre demande à la réception du rapport, tout est pensé pour être simple et rapide.</p>
+  <div class="steps-grid">
+    <div class="step-card">
+      <img class="step-img" src="https://images.unsplash.com/photo-1551808525-51a94da548ce?w=400&q=75&fit=crop" alt="Réservation en ligne" loading="lazy">
+      <div class="step-num">1</div>
+      <h3>Réservez en ligne</h3>
+      <p style="font-size:.88rem;margin-top:.4rem;">Choisissez votre formule, indiquez l'adresse et la date souhaitée. Formulaire en 2 minutes, 7j/7.</p>
+    </div>
+    <div class="step-card">
+      <img class="step-img" src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&q=75&fit=crop" alt="Expert se déplace" loading="lazy">
+      <div class="step-num">2</div>
+      <h3>Un expert se déplace</h3>
+      <p style="font-size:.88rem;margin-top:.4rem;">Notre technicien certifié se rend directement chez le vendeur à l'heure convenue.</p>
+    </div>
+    <div class="step-card">
+      <img class="step-img" src="https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=400&q=75&fit=crop" alt="Inspection technique" loading="lazy">
+      <div class="step-num">3</div>
+      <h3>Inspection sur 200 points</h3>
+      <p style="font-size:.88rem;margin-top:.4rem;">Analyse technique complète, vérification de l'historique, essai sur route.</p>
+    </div>
+    <div class="step-card">
+      <img class="step-img" src="https://images.unsplash.com/photo-1586473219010-2ffc57b0d282?w=400&q=75&fit=crop" alt="Rapport envoyé" loading="lazy">
+      <div class="step-num">4</div>
+      <h3>Rapport & conseils sous 48h</h3>
+      <p style="font-size:.88rem;margin-top:.4rem;">Recevez un rapport PDF, une note globale et nos recommandations pour négocier.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EQUIPE / PHOTOS TECHS ═══ -->
+<section id="equipe">
+  <div class="section-label" style="background:rgba(13,148,136,.15);color:#2DD4BF;">Notre équipe</div>
+  <h2>Des experts passionnés à votre service</h2>
+  <p>Mécaniciens certifiés, anciens techniciens de concessions, passionnés d'automobile — ils mettent leur savoir-faire au service de votre sérénité.</p>
+  <div class="team-grid">
+    <div class="team-card">
+      <img src="file:///C:/Users/wajih.tazi/Downloads/image-Photoroom(1).png" alt="Expert Sébastien" loading="lazy">
+      <div class="team-info">
+        <div class="team-name">Wajih T.</div>
+        <div class="team-role">Expert mécanique · 12 ans d'expérience</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <img src="file:///C:/Users/wajih.tazi/Downloads/image-Photoroom(2).png" alt="Experte Camille" loading="lazy">
+      <div class="team-info">
+        <div class="team-name">Noémie B.</div>
+        <div class="team-role">Spécialiste électronique embarquée</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <img src="file:///C:/Users/wajih.tazi/Downloads/image-Photoroom.png" alt="Expert Thomas" loading="lazy">
+      <div class="team-info">
+        <div class="team-name">Youness M.</div>
+        <div class="team-role">Technicien carrosserie · Ex-BMW</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <img src="file:///C:/Users/wajih.tazi/Downloads/image-Photoroom(3).png" alt="Experte Nadia" loading="lazy">
+      <div class="team-info">
+        <div class="team-name">Amine M.</div>
+        <div class="team-role">Expert véhicules hybrides & électriques</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTROLE ═══ -->
+<section id="controle">
+  <div style="display:flex;gap:4rem;align-items:center;flex-wrap:wrap;margin-bottom:3rem;">
+    <div style="flex:1;min-width:260px;">
+      <div class="section-label">Inspection complète</div>
+      <h2>200 points de contrôle vérifiés</h2>
+      <p style="margin-top:.75rem;">Chaque inspection couvre l'intégralité du véhicule pour ne rien laisser passer.</p>
+    </div>
+    <div style="flex:1;min-width:260px;">
+      <img src="https://images.unsplash.com/photo-1617469767053-d3b523a0b982?w=600&q=80&fit=crop" alt="Inspection moteur" style="border-radius:var(--radius);width:100%;height:220px;object-fit:cover;" loading="lazy">
+    </div>
+  </div>
+  <div class="points-grid">
+    <div class="point-card">
+      <div class="point-icon" style="background:#EBF2FF;"><svg viewBox="0 0 24 24" stroke="#1A56DB" stroke-width="1.8" fill="none"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+      <h3>Identité & historique</h3>
+      <ul class="point-items"><li>Numéro de série vérifié</li><li>Kilométrage non trafiqué</li><li>Véhicule non volé</li><li>Historique des propriétaires</li><li>Véhicule accidenté ?</li><li>Conformité des documents</li></ul>
+    </div>
+    <div class="point-card">
+      <div class="point-icon" style="background:#F0FDF4;"><svg viewBox="0 0 24 24" stroke="#16A34A" stroke-width="1.8" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg></div>
+      <h3>Moteur & mécanique</h3>
+      <ul class="point-items"><li>État du compartiment moteur</li><li>Contrôle des liquides</li><li>Fuites et suintements</li><li>Boîte de vitesses</li><li>Transmission & suspensions</li><li>Refroidissement</li></ul>
+    </div>
+    <div class="point-card">
+      <div class="point-icon" style="background:#FFF7ED;"><svg viewBox="0 0 24 24" stroke="#F97316" stroke-width="1.8" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+      <h3>Carrosserie & châssis</h3>
+      <ul class="point-items"><li>Traces de rouille</li><li>Impacts et déformations</li><li>Alignement des panneaux</li><li>État des joints et vitres</li><li>Peinture et retouches</li><li>Intégrité du châssis</li></ul>
+    </div>
+    <div class="point-card">
+      <div class="point-icon" style="background:#FDF4FF;"><svg viewBox="0 0 24 24" stroke="#9333EA" stroke-width="1.8" fill="none"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0119 9.414V19a2 2 0 01-2 2z"/></svg></div>
+      <h3>Électronique & équipements</h3>
+      <ul class="point-items"><li>Diagnostic OBD</li><li>Climatisation & chauffage</li><li>ADAS & aides à la conduite</li><li>Éclairage complet</li><li>Batterie & alternateur</li><li>Tableau de bord</li></ul>
+    </div>
+    <div class="point-card">
+      <div class="point-icon" style="background:#FFF1F2;"><svg viewBox="0 0 24 24" stroke="#E11D48" stroke-width="1.8" fill="none"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="18" r="3"/><path d="M6 15V7l6-3 6 3v8"/></svg></div>
+      <h3>Freinage & pneus</h3>
+      <ul class="point-items"><li>Usure des plaquettes</li><li>État des disques</li><li>Profil des pneus (4 roues)</li><li>Système ABS / ESP</li><li>Freinage d'urgence</li><li>Direction & géométrie</li></ul>
+    </div>
+    <div class="point-card">
+      <div class="point-icon" style="background:#ECFDF5;"><svg viewBox="0 0 24 24" stroke="#059669" stroke-width="1.8" fill="none"><path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path d="M13 6h3l3 5v3h-3.5M3 17h1m-1-5h13V6H3v6z"/></svg></div>
+      <h3>Essai dynamique</h3>
+      <ul class="point-items"><li>Comportement routier</li><li>Bruits et vibrations</li><li>Accélération & freinage</li><li>Tenue de route en virage</li><li>Boîte auto / manuelle</li><li>Confort général</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TARIFS ═══ -->
+<section id="tarifs">
+  <div class="section-label">Nos formules</div>
+  <h2>Des tarifs clairs, sans surprise</h2>
+  <p style="margin-top:.75rem;max-width:480px;">Choisissez la formule adaptée à votre projet. Paiement sécurisé en ligne.</p>
+  <div class="tarifs-grid">
+    <div class="tarif-card">
+      <div class="tarif-name">Essentiel</div>
+      <div class="tarif-price">99 €<span> TTC</span></div>
+      <div class="tarif-desc">L'essentiel pour vérifier un véhicule avant achat.</div>
+      <ul class="tarif-features">
+        <li><div class="feat-check yes"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5 4-4" stroke-linecap="round"/></svg></div>Inspection sur 100 points</li>
+        <li><div class="feat-check yes"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5 4-4" stroke-linecap="round"/></svg></div>Rapport PDF complet</li>
+        <li><div class="feat-check yes"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5 4-4" stroke-linecap="round"/></svg></div>Vérification des documents</li>
+        <li><div class="feat-check no"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6" stroke-linecap="round"/></svg></div><span style="color:#9CA3AF;">Historique du véhicule</span></li>
+        <li><div class="feat-check no"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6" stroke-linecap="round"/></svg></div><span style="color:#9CA3AF;">Essai routier</span></li>
+        <li><div class="feat-check no"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6" stroke-linecap="round"/></svg></div><span style="color:#9CA3AF;">Conseils de négociation</span></li>
+      </ul>
+      <a href="#" class="btn-tarif outline">Choisir cette formule</a>
+    </div>
+    <div class="tarif-card featured">
+      <div class="tarif-badge">Le plus choisi</div>
+      <div class="tarif-name">Confort</div>
+      <div class="tarif-price">149 €<span> TTC</span></div>
+      <div class="tarif-desc">La formule complète pour acheter en toute sérénité.</div>
+      <ul class="tarif-features">
+        <li><div class="feat-check yes"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5 4-4" stroke-linecap="round"/></svg></div>Inspection sur 200 points</li>
+        <li><div class="feat-check yes"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5 4-4" stroke-linecap="round"/></svg></div>Rapport PDF complet</li>
+        <li><div class="feat-check yes"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5 4-4" stroke-linecap="round"/></svg></div>Vérification des documents</li>
+        <li><div class="feat-check yes"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5 4-4" stroke-linecap="round"/></svg></div>Historique complet du véhicule</li>
+        <li><div class="feat-check yes"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5 4-4" stroke-linecap="round"/></svg></div>Essai routier inclus</li>
+        <li><div class="feat-check yes"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5 4-4" stroke-linecap="round"/></svg></div>Conseils de négociation</li>
+      </ul>
+      <a href="#" class="btn-tarif primary">Choisir cette formule</a>
+    </div>
+    <div class="tarif-card">
+      <div class="tarif-name">Premium</div>
+      <div class="tarif-price">199 €<span> TTC</span></div>
+      <div class="tarif-desc">Couverture maximale avec suivi après-achat inclus.</div>
+      <ul class="tarif-features">
+        <li><div class="feat-check yes"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5 4-4" stroke-linecap="round"/></svg></div>Tout de la formule Confort</li>
+        <li><div class="feat-check yes"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5 4-4" stroke-linecap="round"/></svg></div>Diagnostic électronique OBD</li>
+        <li><div class="feat-check yes"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5 4-4" stroke-linecap="round"/></svg></div>Appel vidéo avec l'expert</li>
+        <li><div class="feat-check yes"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5 4-4" stroke-linecap="round"/></svg></div>1 mois de support après-vente</li>
+        <li><div class="feat-check yes"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5 4-4" stroke-linecap="round"/></svg></div>Priorité 24h</li>
+        <li><div class="feat-check yes"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5 4-4" stroke-linecap="round"/></svg></div>Photos HD illimitées</li>
+      </ul>
+      <a href="#" class="btn-tarif outline">Choisir cette formule</a>
+    </div>
+  </div>
+  <p style="text-align:center;margin-top:2rem;font-size:.85rem;color:var(--gray-400);">Déplacement inclus dans un rayon de 50 km · Supplément 0,40 €/km au-delà · Remboursement si le vendeur refuse l'inspection</p>
+</section>
+
+<!-- ═══ APRES-VENTE ═══ -->
+<section id="apres-vente">
+  <div class="apres-content">
+    <div class="apres-text">
+      <div class="apres-badge">Nouveau</div>
+      <div class="section-label">Pack Sérénité</div>
+      <h2>Une panne après l'achat ? On est là.</h2>
+      <p>Avec notre <strong>Pack Après-Vente</strong>, bénéficiez d'un accompagnement expert même après avoir acheté votre véhicule.</p>
+      <img class="apres-img" src="https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=600&q=80&fit=crop" alt="Diagnostic automobile" loading="lazy">
+      <a href="#" class="btn-primary">Découvrir le Pack Sérénité</a>
+    </div>
+    <div class="apres-cards">
+      <div class="apres-card">
+        <div class="apres-icon"><svg viewBox="0 0 24 24"><path d="M15 10l4.553-2.069A1 1 0 0121 8.82V15.18a1 1 0 01-1.447.89L15 14M3 8h12a2 2 0 012 2v4a2 2 0 01-2 2H3a2 2 0 01-2-2v-4a2 2 0 012-2z"/></svg></div>
+        <div><h3 style="font-size:.95rem;margin-bottom:.25rem;">Diagnostic vidéo à distance</h3><p style="font-size:.86rem;">En visio, notre expert identifie le problème et vous oriente immédiatement.</p></div>
+      </div>
+      <div class="apres-card">
+        <div class="apres-icon"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div>
+        <div><h3 style="font-size:.95rem;margin-bottom:.25rem;">Rapport de panne détaillé</h3><p style="font-size:.86rem;">Identification précise du problème et estimation du coût de réparation.</p></div>
+      </div>
+      <div class="apres-card">
+        <div class="apres-icon"><svg viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+        <div><h3 style="font-size:.95rem;margin-bottom:.25rem;">Intervention physique si nécessaire</h3><p style="font-size:.86rem;">Si le diagnostic à distance ne suffit pas, un expert se déplace chez vous.</p></div>
+      </div>
+      <div class="apres-card">
+        <div class="apres-icon"><svg viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg></div>
+        <div><h3 style="font-size:.95rem;margin-bottom:.25rem;">Hotline dédiée</h3><p style="font-size:.86rem;">Une ligne directe pour joindre un expert 6j/7, sans attente.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ B2B ═══ -->
+<section id="b2b">
+  <div class="section-label" style="background:rgba(13,148,136,.15);color:#2DD4BF;">Pour les professionnels</div>
+  <h2>Vous êtes un professionnel de l'automobile ?</h2>
+  <p>Concessionnaires, loueurs, négociants — bénéficiez de nos services sur-mesure avec des tarifs préférentiels.</p>
+  <div class="b2b-content">
+    <div class="b2b-text">
+      <img src="https://images.unsplash.com/photo-1562141961-b8f12e59c08d?w=600&q=80&fit=crop" alt="Parc automobile professionnel" style="border-radius:var(--radius);width:100%;height:200px;object-fit:cover;margin-bottom:2rem;" loading="lazy">
+      <div class="b2b-benefits">
+        <div class="b2b-benefit"><div class="b2b-dot"></div><div><div class="b2b-benefit-title">Tarifs dégressifs selon volume</div><p>À partir de 5 inspections/mois, profitez de tarifs négociés.</p></div></div>
+        <div class="b2b-benefit"><div class="b2b-dot"></div><div><div class="b2b-benefit-title">Inspecteur attitré</div><p>Un expert dédié à votre compte pour une relation de confiance durable.</p></div></div>
+        <div class="b2b-benefit"><div class="b2b-dot"></div><div><div class="b2b-benefit-title">Facturation mensuelle</div><p>Toutes vos inspections sur une seule facture pour simplifier votre compta.</p></div></div>
+      </div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+        <div style="background:#1F2937;border-radius:10px;padding:1rem 1.5rem;text-align:center;"><div style="font-size:1.7rem;font-weight:800;color:#2DD4BF;">5+</div><div style="font-size:.78rem;color:#9CA3AF;">insp./mois</div><div style="font-size:.88rem;color:#fff;margin-top:.2rem;">–15%</div></div>
+        <div style="background:#1F2937;border-radius:10px;padding:1rem 1.5rem;text-align:center;"><div style="font-size:1.7rem;font-weight:800;color:#2DD4BF;">20+</div><div style="font-size:.78rem;color:#9CA3AF;">insp./mois</div><div style="font-size:.88rem;color:#fff;margin-top:.2rem;">–25%</div></div>
+        <div style="background:#1F2937;border-radius:10px;padding:1rem 1.5rem;text-align:center;"><div style="font-size:1.7rem;font-weight:800;color:#2DD4BF;">50+</div><div style="font-size:.78rem;color:#9CA3AF;">insp./mois</div><div style="font-size:.88rem;color:#fff;margin-top:.2rem;">Sur devis</div></div>
+      </div>
+    </div>
+    <div class="b2b-form">
+      <div class="devis-form">
+        <h3>Demandez un devis gratuit</h3>
+        <div class="form-row">
+          <div class="form-group"><label>Prénom</label><input type="text" placeholder="Jean"></div>
+          <div class="form-group"><label>Nom</label><input type="text" placeholder="Dupont"></div>
+        </div>
+        <div class="form-group"><label>Société</label><input type="text" placeholder="Auto Martin SAS"></div>
+        <div class="form-group"><label>Email professionnel</label><input type="email" placeholder="contact@societe.fr"></div>
+        <div class="form-group"><label>Téléphone</label><input type="tel" placeholder="06 00 00 00 00"></div>
+        <div class="form-group"><label>Volume estimé par mois</label>
+          <select><option value="">Sélectionnez...</option><option>Moins de 5</option><option>5 à 20</option><option>20 à 50</option><option>Plus de 50</option></select>
+        </div>
+        <div class="form-group"><label>Type d'activité</label>
+          <select><option value="">Sélectionnez...</option><option>Concessionnaire</option><option>Négociant indépendant</option><option>Loueur de véhicules</option><option>Reprise de véhicules</option><option>Autre</option></select>
+        </div>
+        <div class="form-group"><label>Message (optionnel)</label><textarea placeholder="Décrivez vos besoins spécifiques..."></textarea></div>
+        <button class="btn-devis" onclick="alert('Merci ! Notre équipe vous contacte sous 24h.')">Envoyer ma demande de devis</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ AVIS ═══ -->
+<section id="avis">
+  <div class="text-center" style="margin-bottom:3rem;">
+    <div class="section-label">Ils nous font confiance</div>
+    <h2>Ce que disent nos clients</h2>
+    <p style="margin-top:.75rem;max-width:440px;margin-left:auto;margin-right:auto;">+50 inspections réalisées · 98% de satisfaction</p>
+  </div>
+  <div class="avis-grid">
+    <div class="avis-card"><div class="stars">★★★★★</div><p class="avis-text">"L'expert a découvert que le compteur avait été trafiqué. J'ai évité une arnaque de plus de 3 000 €. Merci !"</p><div class="avis-author"><div class="avis-avatar">TL</div><div><div class="avis-name">Wajih L.</div><div class="avis-date">Formule Confort · Mars 2025</div></div></div></div>
+    <div class="avis-card"><div class="stars">★★★★★</div><p class="avis-text">"Je ne m'y connais pas en mécanique. Grâce à Check My Car, j'ai pu acheter ma Peugeot 3008 en sachant exactement ce que j'achetais."</p><div class="avis-author"><div class="avis-avatar">SC</div><div><div class="avis-name">Angeline C.</div><div class="avis-date">Formule Premium · Février 2025</div></div></div></div>
+    <div class="avis-card"><div class="stars">★★★★☆</div><p class="avis-text">"Rapport reçu en moins de 24h. L'inspection a révélé des problèmes de freins. J'ai obtenu une réduction de 800 €."</p><div class="avis-author"><div class="avis-avatar">AM</div><div><div class="avis-name">Amine M.</div><div class="avis-date">Formule Essentiel · Janvier 2025</div></div></div></div>
+    <div class="avis-card"><div class="stars">★★★★★</div><p class="avis-text">"J'ai utilisé le Pack Après-Vente suite à un voyant allumé. En 30 minutes de visio, l'expert a tout identifié. Excellent !"</p><div class="avis-author"><div class="avis-avatar">MF</div><div><div class="avis-name">Noémie F.</div><div class="avis-date">Pack Sérénité · Avril 2025</div></div></div></div>
+    <div class="avis-card"><div class="stars">★★★★★</div><p class="avis-text">"En tant que concessionnaire, nous utilisons Check My Car pour toutes nos reprises. Les rapports sont précis et le tarif pro est très compétitif."</p><div class="avis-author"><div class="avis-avatar">PD</div><div><div class="avis-name">Pierre D.</div><div class="avis-date">Client Pro · Depuis 2024</div></div></div></div>
+    <div class="avis-card"><div class="stars">★★★★★</div><p class="avis-text">"J'ai acheté un véhicule à 200 km de chez moi. L'expert s'est déplacé à ma place. Service parfait pour les achats à distance !"</p><div class="avis-author"><div class="avis-avatar">JR</div><div><div class="avis-name">Miaw R.</div><div class="avis-date">Formule Confort · Mars 2025</div></div></div></div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section id="faq">
+  <div class="text-center"><div class="section-label">FAQ</div><h2>Questions fréquentes</h2></div>
+  <div class="faq-list">
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Combien de temps dure une inspection ?<div class="faq-icon"><svg viewBox="0 0 12 12"><path d="M6 2v8M2 6h8" stroke-linecap="round"/></svg></div></div><div class="faq-a">Entre 1h30 et 2h30 selon la formule. Essentiel ≈ 1h30, Confort ≈ 2h, Premium jusqu'à 2h30 avec l'essai routier.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Où se déplace votre expert ?<div class="faq-icon"><svg viewBox="0 0 12 12"><path d="M6 2v8M2 6h8" stroke-linecap="round"/></svg></div></div><div class="faq-a">Partout en France. Déplacement inclus dans un rayon de 50 km. Supplément 0,40 €/km au-delà.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Que se passe-t-il si le vendeur refuse l'inspection ?<div class="faq-icon"><svg viewBox="0 0 12 12"><path d="M6 2v8M2 6h8" stroke-linecap="round"/></svg></div></div><div class="faq-a">C'est généralement un signal d'alerte. Nous vous remboursons intégralement votre réservation sous 48h.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Dois-je être présent lors de l'inspection ?<div class="faq-icon"><svg viewBox="0 0 12 12"><path d="M6 2v8M2 6h8" stroke-linecap="round"/></svg></div></div><div class="faq-a">Non ! L'expert se déplace à votre place, même à l'autre bout du pays. Vous recevez le rapport complet avec photos.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Qu'est-ce que le Pack Sérénité ?<div class="faq-icon"><svg viewBox="0 0 12 12"><path d="M6 2v8M2 6h8" stroke-linecap="round"/></svg></div></div><div class="faq-a">Un suivi après achat pour diagnostiquer les pannes via visio ou intervention physique, identifier les problèmes et vous orienter vers les meilleures solutions.</div></div>
+  </div>
+</section>
+
+<!-- ═══ CTA FINAL ═══ -->
+<section id="cta-final">
+  <div class="section-label" style="background:rgba(255,255,255,.2);color:#fff;">Prêt à commencer ?</div>
+  <h2>Ne laissez pas le hasard décider</h2>
+  <p>Réservez votre inspection dès aujourd'hui et achetez votre prochaine voiture l'esprit tranquille.</p>
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+    <a href="#tarifs" class="btn-white">
+      <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+      Réserver une inspection
+    </a>
+    <a href="tel:+33123456789" style="background:rgba(255,255,255,.15);color:#fff;padding:14px 26px;border-radius:8px;font-weight:700;display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,.3);">
+      <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+      01 23 45 67 89
+    </a>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <!-- LOGO FOOTER (version blanche) -->
+      <svg width="130" height="34" viewBox="0 0 140 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:.75rem;">
+        <path d="M4 6L18 2L32 6V18C32 25.5 18 32 18 32C18 32 4 25.5 4 18V6Z" fill="#1A56DB" stroke="#1245B0" stroke-width="1"/>
+        <line x1="26" y1="26" x2="31" y2="31" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="21" cy="19" r="5.5" stroke="#fff" stroke-width="2" fill="none"/>
+        <path d="M11 17l3.5 3.5L20.5 13" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="37" y="15" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="12" fill="#ffffff">CHECK</text>
+        <text x="37" y="29" font-family="'Plus Jakarta Sans',sans-serif" font-weight="700" font-size="11" fill="#60A5FA" letter-spacing="1.5">MY CAR</text>
+      </svg>
+      <p class="footer-desc">L'expert automobile de confiance pour l'inspection de voitures d'occasion. Disponible 7j/7 partout en France.</p>
+    </div>
+    <div><h4>Services</h4><ul class="footer-links"><li><a href="#tarifs">Formule Essentiel</a></li><li><a href="#tarifs">Formule Confort</a></li><li><a href="#tarifs">Formule Premium</a></li><li><a href="#apres-vente">Pack Sérénité</a></li><li><a href="#b2b">Offre Professionnels</a></li></ul></div>
+    <div><h4>Entreprise</h4><ul class="footer-links"><li><a href="#">À propos</a></li><li><a href="#equipe">Notre équipe</a></li><li><a href="#">Zones couvertes</a></li><li><a href="#avis">Avis clients</a></li><li><a href="#">Blog</a></li></ul></div>
+    <div><h4>Contact</h4><ul class="footer-links"><li><a href="tel:+33123456789">01 23 45 67 89</a></li><li><a href="mailto:contact@checkmycar.fr">contact@checkmycar.fr</a></li><li><a href="#faq">FAQ</a></li><li><a href="#">Mentions légales</a></li><li><a href="#">Confidentialité</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2025 Check My Car. Tous droits réservés.</span><span>Fait avec ❤ dans le pc de Waji</span></div>
+</footer>
+
+<!-- ═══ CHATBOT ═══ -->
+<div id="chat-bubble">
+  <div id="chat-window">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <div class="chat-avatar"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div>
+        <div>
+          <div class="chat-header-name">Assistant Check My Car</div>
+          <div class="chat-header-status">● En ligne · répond en quelques secondes</div>
+        </div>
+      </div>
+      <button class="chat-close" onclick="toggleChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-quick" id="quick-replies">
+      <button class="quick-btn" onclick="sendQuick('Quels sont vos tarifs ?')">💶 Tarifs</button>
+      <button class="quick-btn" onclick="sendQuick('Comment réserver une inspection ?')">📅 Réserver</button>
+      <button class="quick-btn" onclick="sendQuick('Qu\'est-ce que le Pack Sérénité ?')">🛡️ Pack Sérénité</button>
+      <button class="quick-btn" onclick="sendQuick('Vous intervenez dans toute la France ?')">📍 Zone</button>
+    </div>
+    <div class="chat-input-row">
+      <input type="text" id="chat-input" placeholder="Posez votre question..." onkeydown="if(event.key==='Enter') sendMessage()">
+      <button id="chat-send" onclick="sendMessage()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
+  <button id="chat-toggle" onclick="toggleChat()">
+    <div class="chat-notif" id="chat-notif">1</div>
+    <svg viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</div>
+
+<script>
+// ─── FAQ ───
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ─── MOBILE MENU ───
+function toggleMobileMenu() {
+  const nav = document.getElementById('mobile-nav');
+  nav.style.display = nav.style.display === 'none' || nav.style.display === '' ? 'block' : 'none';
+}
+
+// ─── SMOOTH SCROLL ───
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+
+// ─── CHATBOT ───
+const SYSTEM_PROMPT = `Tu es l'assistant virtuel de Check My Car, un service d'inspection de voitures d'occasion en France.
+Tu réponds uniquement en français, de façon concise, chaleureuse et professionnelle.
+Voici les informations clés sur le service :
+- FORMULES : Essentiel (99€, 100 points, rapport PDF, vérif documents), Confort (149€, 200 points, historique, essai routier, conseils négociation), Premium (199€, tout Confort + OBD, appel vidéo expert, 1 mois support après-vente)
+- FONCTIONNEMENT : 1) Réservation en ligne 2) Expert se déplace chez le vendeur 3) Inspection 200 points 4) Rapport PDF sous 48h
+- PACK SÉRÉNITÉ (après-vente) : diagnostic vidéo à distance, rapport de panne, intervention physique si nécessaire, hotline 6j/7
+- B2B : tarifs dégressifs (-15% dès 5/mois, -25% dès 20/mois, devis sur mesure 50+), inspecteur attitré, facturation mensuelle
+- DÉPLACEMENT : inclus dans 50 km, +0,40€/km au-delà, partout en France
+- DURÉE : 1h30 à 2h30 selon formule
+- Si vendeur refuse : remboursement intégral garanti
+- Disponible 7j/7, rapport sous 48h
+- Contact : 01 23 45 67 89 / contact@checkmycar.fr
+Réponds en 2-3 phrases maximum. Si la question sort du cadre du service, redirige poliment vers le service client.`;
+
+let chatHistory = [];
+let chatOpened = false;
+
+function toggleChat() {
+  const win = document.getElementById('chat-window');
+  const notif = document.getElementById('chat-notif');
+  chatOpened = !chatOpened;
+  win.classList.toggle('open', chatOpened);
+  if (chatOpened) {
+    notif.style.display = 'none';
+    if (chatHistory.length === 0) {
+      setTimeout(() => addBotMessage("Bonjour ! 👋 Je suis l'assistant Check My Car. Comment puis-je vous aider ? Vous pouvez me poser vos questions sur nos formules, nos tarifs ou notre fonctionnement."), 300);
+    }
+    setTimeout(() => document.getElementById('chat-input').focus(), 400);
+  }
+}
+
+function addBotMessage(text) {
+  const container = document.getElementById('chat-messages');
+  const msg = document.createElement('div');
+  msg.className = 'msg bot';
+  msg.textContent = text;
+  container.appendChild(msg);
+  container.scrollTop = container.scrollHeight;
+}
+
+function addUserMessage(text) {
+  const container = document.getElementById('chat-messages');
+  const msg = document.createElement('div');
+  msg.className = 'msg user';
+  msg.textContent = text;
+  container.appendChild(msg);
+  container.scrollTop = container.scrollHeight;
+}
+
+function showTyping() {
+  const container = document.getElementById('chat-messages');
+  const typing = document.createElement('div');
+  typing.className = 'msg typing';
+  typing.id = 'typing-indicator';
+  typing.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+  container.appendChild(typing);
+  container.scrollTop = container.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typing-indicator');
+  if (t) t.remove();
+}
+
+async function askClaude(userMsg) {
+  chatHistory.push({ role: 'user', content: userMsg });
+  showTyping();
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: chatHistory
+      })
+    });
+    const data = await response.json();
+    const reply = data.content?.[0]?.text || "Désolé, une erreur est survenue. Appelez-nous au 01 23 45 67 89.";
+    chatHistory.push({ role: 'assistant', content: reply });
+    removeTyping();
+    addBotMessage(reply);
+  } catch (err) {
+    removeTyping();
+    addBotMessage("Une erreur de connexion est survenue. N'hésitez pas à nous appeler au 01 23 45 67 89.");
+  }
+}
+
+function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  document.getElementById('quick-replies').style.display = 'none';
+  addUserMessage(text);
+  askClaude(text);
+}
+
+function sendQuick(text) {
+  document.getElementById('quick-replies').style.display = 'none';
+  addUserMessage(text);
+  askClaude(text);
+}
+</script>
+</body>
+</html>
